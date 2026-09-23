@@ -1,7 +1,8 @@
 <header class="app-header">
 
 	<div class="logo">
-		🐾 Happy Pet
+		<img src="/icon/icon.png" alt="Icon" class="logo-icon" />
+		Happy Pet
 	</div>
 
 	<nav class="main-nav">
@@ -34,12 +35,12 @@
 	</nav>
 
 	<nav class="header-actions">
-
-		<a routerLink="/cart" class="cart-link" aria-label="Ver carrinho">
-			🛒 Carrinho
+	
+		<a type="link" routerLink="/cart" class="cart-link" aria-label="Ver carrinho">
+			🛒<span class="cart-count">{{ carrinhoItemCount() }}</span>
 		</a>
 
-		<a routerLink="/favoritos" class="favorite-link">
+		<a type="link" routerLink="/favoritos" class="favorite-link" aria-label="Ver favoritos">
 			❤️ Favoritos
 		</a>
 
@@ -53,7 +54,7 @@
 <div class="notificacao">
 
 	<span class="notificacao-icone">
-		🐾
+		<img src="/icon/icon.png" alt="Icon" class="logo-icon" />
 	</span>
 
 	<span>

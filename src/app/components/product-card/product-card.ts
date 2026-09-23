@@ -1,5 +1,5 @@
-import { Component, input, output } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 export interface Produto {
   id: number;
@@ -13,33 +13,43 @@ export interface Produto {
 
 @Component({
   selector: 'app-product-card',
-  imports: [CurrencyPipe],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.css'
+  styleUrls: ['./product-card.css']
 })
 export class ProductCard {
 
-  produto = input.required<Produto>();
+  @Input() produto: Produto = {
+    id: 0,
+    nome: '',
+    descricao: '',
+    preco: 0,
+    imagem: '',
+    categoria: '',
+    favorito: false,
+  };
 
-  favoritoAlterado = output<Produto>();
-  adicionar = output<Produto>();
+  @Output() favoritoAlterado = new EventEmitter<Produto>();
+  @Output() adicionar = new EventEmitter<Produto>();
+  @Output() ver = new EventEmitter<Produto>();
+
   added = false;
-  ver = output<Produto>();
 
   favoritar(): void {
-  const produto = this.produto();
-  this.favoritoAlterado.emit(produto);
-}
+    const produto = this.produto;
+    this.favoritoAlterado.emit(produto);
+  }
 
   adicionarAoCarrinho(): void {
-    const produto = this.produto();
+    const produto = this.produto;
     this.adicionar.emit(produto);
     this.added = true;
     setTimeout(() => (this.added = false), 900);
   }
 
   verDetalhe(): void {
-    const produto = this.produto();
+    const produto = this.produto;
     this.ver.emit(produto);
   }
 

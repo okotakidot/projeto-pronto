@@ -62,4 +62,16 @@ export class App {
       this.mensagem.set('');
     }, 3500);
   }
+
+  carrinhoItemCount(): number {
+    const raw = localStorage.getItem('happyPet.carrinho');
+    if (!raw) return 0;
+    try {
+      const carrinho = JSON.parse(raw);
+      if (!carrinho || !Array.isArray(carrinho.items)) return 0;
+      return carrinho.items.reduce((total: number, item: any) => total + (item?.quantidade || 0), 0);
+    } catch {
+      return 0;
+    }
+  }
 }

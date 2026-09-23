@@ -17,20 +17,59 @@
 
   </section>
 
-
-  <section class="product-grid">
-
-    @for (produto of produtos; track produto.id) {
-
-      <app-product-card
-        [produto]="produto"
-        (favoritoAlterado)="atualizarFavorito($event)"
-        (adicionar)="adicionarAoCarrinho($event)"
-        (ver)="verProduto($event)"
+  <section class="catalog-controls" aria-label="Barra de busca e filtros por categoria">
+    <label class="search-field" for="search-products">
+      <span class="sr-only">Buscar produtos</span>
+      <input
+        id="search-products"
+        type="search"
+        [value]="searchTerm()"
+        (input)="searchTerm.set($any($event.target).value)"
+        placeholder="Buscar por nome, categoria ou descrição"
+        aria-label="Buscar produtos"
       />
+    </label>
 
+    <div class="tag-filter" role="list" aria-label="Filtrar por categoria">
+      @for (tag of tags(); track tag) {
+        <button
+          type="button"
+          role="listitem"
+          class="tag-button"
+          [class.active]="selectedTag() === tag"
+          (click)="selectedTag.set(tag)"
+        >
+          {{ tag }}
+        </button>
+      }
+    </div>
+
+    @if (searchTerm() || selectedTag() !== 'Todas') {
+      <button type="button" class="clear-filters" (click)="limparFiltros()">
+        Limpar filtros
+      </button>
     }
-
   </section>
+
+  @if (produtosFiltrados().length === 0) {
+    <section class="empty-state" aria-live="polite">
+      <p>Nenhum produto encontrado com os filtros atuais.</p>
+    </section>
+  } @else {
+    <section class="product-grid">
+
+      @for (produto of produtosFiltrados(); track produto.id) {
+
+        <app-product-card
+          [produto]="produto"
+          (favoritoAlterado)="atualizarFavorito($event)"
+          (adicionar)="adicionarAoCarrinho($event)"
+          (ver)="verProduto($event)"
+        />
+
+      }
+
+    </section>
+  }
 
 </main>

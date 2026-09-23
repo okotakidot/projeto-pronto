@@ -28,6 +28,16 @@
   white-space: nowrap;
 }
 
+/* LOGO ICON */
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 
 /* NAVEGAÇÃO */
 
@@ -130,6 +140,15 @@
   gap: 7px;
 }
 
+/* CONTADOR DO CARRINHO */
+.cart-count {
+  color: #ff8738;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
 
 /* FAVORITOS */
 
@@ -188,6 +207,7 @@
 
   animation: aparecerNotificacao 0.3s ease;
 }
+
 
 
 .notificacao-icone {

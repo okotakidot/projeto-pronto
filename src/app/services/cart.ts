@@ -56,7 +56,7 @@ export class CarrinhoService {
     this.items = this.items.filter(i => i.produto.id !== produtoId);
     this.persist();
   }
-
+  
   limpar(): void {
     this.items = [];
     this.persist();

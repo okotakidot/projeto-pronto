@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ProductCard, Produto } from '../../components/product-card/product-card';
 import { cart } from '../../services/cart';
 import { productsService } from '../../services/products';
@@ -11,14 +11,39 @@ import { Router } from '@angular/router';
   styleUrl: './catalog.css'
 })
 export class Catalog {
-  produtos: Produto[] = productsService.listar();
+  produtos = signal<Produto[]>(productsService.listar());
+  searchTerm = signal('');
+  selectedTag = signal('Todas');
+
+  tags = computed(() => {
+    const categorias = this.produtos().map((produto) => produto.categoria);
+    return ['Todas', ...new Set(categorias)];
+  });
+
+  produtosFiltrados = computed(() => {
+    const termo = this.searchTerm().trim().toLowerCase();
+    const tagSelecionada = this.selectedTag();
+
+    return this.produtos().filter((produto) => {
+      const correspondeTag =
+        tagSelecionada === 'Todas' || produto.categoria === tagSelecionada;
+
+      const buscaTexto =
+        termo.length === 0 ||
+        produto.nome.toLowerCase().includes(termo) ||
+        produto.descricao.toLowerCase().includes(termo) ||
+        produto.categoria.toLowerCase().includes(termo);
+
+      return correspondeTag && buscaTexto;
+    });
+  });
 
   constructor(private router: Router) {}
 
- atualizarFavorito(produto: Produto): void {
-  productsService.alternarFavorito(produto.id);
-  this.produtos = productsService.listar();
-}
+  atualizarFavorito(produto: Produto): void {
+    productsService.alternarFavorito(produto.id);
+    this.produtos.set(productsService.listar());
+  }
 
   adicionarAoCarrinho(produto: Produto): void {
     cart.adicionar(produto, 1);
@@ -29,4 +54,8 @@ export class Catalog {
     this.router.navigate(['/product', produto.id]);
   }
 
+  limparFiltros(): void {
+    this.searchTerm.set('');
+    this.selectedTag.set('Todas');
+  }
 }

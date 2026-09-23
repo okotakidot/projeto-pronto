@@ -73,7 +73,7 @@ export class Login {
 
     window.dispatchEvent(
       new CustomEvent('notificacao', {
-        detail: 'Login realizado com sucesso! 🐾',
+        detail: 'Login realizado com sucesso!',
       }),
     );
 

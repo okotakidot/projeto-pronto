@@ -2,14 +2,14 @@
 <article class="product-card" [class.added]="added">
 
   <div class="added-badge" [hidden]="!added">
-    ✓ selecionado
+    ✓ produto adicionado
   </div>
 
   <div class="product-image">
 
     <img
-      [src]="produto().imagem"
-      [alt]="produto().nome"
+      [src]="produto.imagem"
+      [alt]="produto.nome"
     >
 
   </div>
@@ -17,15 +17,15 @@
   <div class="product-info">
 
     <h2>
-      {{ produto().nome }}
+      {{ produto.nome }}
     </h2>
 
     <p>
-      {{ produto().descricao }}
+      {{ produto.descricao }}
     </p>
 
     <strong>
-      {{ produto().preco | currency:'BRL' }}
+      {{ produto.preco | currency:'BRL' }}
     </strong>
 
     <div class="card-actions">
@@ -49,10 +49,10 @@
       <button
         class="favorite-button"
         type="button"
-        [class.active]="produto().favorito"
+        [class.active]="produto.favorito"
         (click)="favoritar()"
         [attr.aria-label]="
-          produto().favorito
+          produto.favorito
             ? 'Remover dos favoritos'
             : 'Adicionar aos favoritos'
         "
